@@ -71,25 +71,33 @@ main {
 /* End Learning page styles */
 
 /* Login Page Styles */
-.login-grid{
+.login-grid {
   display: grid;
-  grid-template-columns: auto 50% auto;
+  grid-template-columns: 100%;
   height: 80vh;
 }
-.login-content{
+.login-content {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 30px;
 }
-.LoginForm{
+.LoginForm {
   border-radius: 5px;
   border: 1px solid black;
-  width: 75%;
+  width: 100%;
   padding: 15px;
+  max-width: 350px;
 }
-.form-input{
+.form-input {
   margin: 10px 0;
+  display: block;
+  width: 100%;
+  border-radius: 3px;
+  height: 30px;
+}
+.form-label {
   display: block;
 }
 /* End Login Page Styles */
@@ -117,6 +125,15 @@ main {
 .green-text {
   color: green;
 }
+.btn {
+  background: black;
+  padding: 7px;
+  color: white;
+  border-radius: 5px;
+}
+/* .side-div {
+  display: none;
+} */
 /* End Utility Classes */
 
 /* Registration Styles */
@@ -173,6 +190,15 @@ main {
 /* End Registration styles */
 
 /* Media Queries */
+@media (min-width: 687px) {
+  .LoginForm {
+    border-radius: 5px;
+    border: 1px solid black;
+    width: 65%;
+    padding: 15px;
+  }
+}
+
 @media (min-width: 876px) {
   .answerBtn {
     display: inline-block;
@@ -189,6 +215,12 @@ main {
   }
   #logo {
     margin: 0 0 0 30px;
+  }
+  .login-content {
+    padding: 30px;
+  }
+  .login-grid {
+    grid-template-columns: auto 60% auto;
   }
 }
 /* Media Queries */
