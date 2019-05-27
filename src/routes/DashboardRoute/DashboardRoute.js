@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import "../../components/App/App.css"
 
 class DashboardRoute extends Component {
   render() {
@@ -6,9 +7,9 @@ class DashboardRoute extends Component {
     const hardcodedWords = [];
 
     return (
-      <section className="word-to-learn">
-        <div>
-          <h3>Word to practice</h3>
+      <section className="practice-word">
+        <div className="word-to-learn">
+          <h2>Word to practice</h2>
           <table>
             <tr>
               <th>{' '}</th>
@@ -19,6 +20,10 @@ class DashboardRoute extends Component {
             <tr>Word 2</tr>
           </table>
         </div>
+        <div className="practice-btn">
+          <button type="button">Practice</button>
+        </div>
+        
       </section>
     );
   }

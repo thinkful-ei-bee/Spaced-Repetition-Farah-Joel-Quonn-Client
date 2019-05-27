@@ -95,6 +95,50 @@ main {
 }
 /* End Utility Classes */
 
+
+/* Dashboard Component Styles */
+.word-to-learn{
+  margin: auto;
+  margin-top: 100px;
+  text-align: center;
+  width: 400px;
+}
+
+.word-to-learn h2 {
+  padding-bottom: 30px;
+}
+
+.word-to-learn table {
+  margin: auto;
+}
+
+.word-to-learn th {
+  padding-left: 25px;
+  padding-right: 25px;
+  border-bottom: 1px solid black;
+}
+.word-to-learn tr{
+  font-size: 20px;
+  line-height: 40px;
+}
+
+.practice-btn {
+  margin: auto;
+  margin-top: 30px;
+  width: fit-content;
+  height: 100px;
+}
+.practice-btn button{
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-size: 25px;
+  color: white;
+  background: black;
+  border-radius: 5px;
+}
+/* End Dashboard Styles */
+
+
 /* Media Queries */
 @media (min-width: 876px) {
   .answerBtn {
