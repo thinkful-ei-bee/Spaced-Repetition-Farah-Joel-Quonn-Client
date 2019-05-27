@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import LoginForm from '../../components/LoginForm/LoginForm'
+import "../../components/App/App.css"
 
 class LoginRoute extends Component {
   static defaultProps = {
@@ -17,11 +18,16 @@ class LoginRoute extends Component {
 
   render() {
     return (
-      <section>
-        <h2>Login</h2>
-        <LoginForm
-          onLoginSuccess={this.handleLoginSuccess}
-        />
+      <section className="login-grid">
+        <div className="login-grid-item"></div>
+        <div className="login-grid-item login-content">
+          <h2>Login</h2>
+          <LoginForm
+            className="LoginForm"
+            onLoginSuccess={this.handleLoginSuccess}
+          />
+        </div>
+        <div className="login-grid-item"></div>
       </section>
     );
   }

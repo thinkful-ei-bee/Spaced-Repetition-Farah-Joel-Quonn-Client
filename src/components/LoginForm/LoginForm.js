@@ -66,6 +66,7 @@ class LoginForm extends Component {
             Password
           </Label>
           <Input
+            className="form-input"
             id='login-password-input'
             name='password'
             type='password'
