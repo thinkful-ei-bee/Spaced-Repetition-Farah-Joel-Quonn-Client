@@ -85,11 +85,15 @@ main {
 .LoginForm{
   border-radius: 5px;
   border: 1px solid black;
-  width: 75%;
-  padding: 15px;
+  width: 60%;
+  padding: 30px;
 }
 .form-input{
   margin: 10px 0;
+  display: block;
+  width: 100%;
+}
+.form-label{
   display: block;
 }
 /* End Login Page Styles */
@@ -116,6 +120,12 @@ main {
 }
 .green-text {
   color: green;
+}
+.btn{
+  background: black;
+  padding: 7px;
+  color: white;
+  border-radius: 5px;
 }
 /* End Utility Classes */
 
