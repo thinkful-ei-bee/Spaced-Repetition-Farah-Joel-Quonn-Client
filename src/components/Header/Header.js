@@ -56,12 +56,6 @@ class Header extends Component {
           <Link to='/learn'>
               Learn
           </Link>
-          <Link to='/correct'>
-              Correct
-          </Link>
-          <Link to='/wrong'>
-              Wrong
-          </Link>
         </div>
       </header>
     );
