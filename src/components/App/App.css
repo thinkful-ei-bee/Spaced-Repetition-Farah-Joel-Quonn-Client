@@ -1,0 +1,117 @@
+/* Main Styles */
+main {
+  height: 85vh;
+}
+/* End of main styles */
+
+/* Header Component Styles */
+.header {
+  height: 13vh;
+  background: black;
+  color: white;
+}
+.header-grid {
+  display: grid;
+  grid-template-columns: 60% 40%;
+}
+.header-menu-box {
+  justify-content: flex-end;
+  display: flex;
+  align-items: center;
+  padding-right: 30px;
+}
+.header-menu-link {
+  display: inline;
+  margin: 0 10px;
+}
+.logo-box {
+  display: flex;
+  align-items: center;
+}
+#logo {
+  font-size: 20px;
+  margin-left: 15px;
+  color: white;
+}
+/* End Header Component Styles */
+
+/* Learning page styles */
+.quiz-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+.quiz-status-bar {
+  height: 25px;
+  border: 1px solid black;
+  margin: 7px 5px 5px;
+}
+.learning-quiz-question-box {
+  border: 1px solid black;
+  margin: 5px 5px;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40vh;
+}
+.answerBtn {
+  padding: 25px;
+  display: block;
+  background: black;
+  width: 99%;
+  border-radius: 7px;
+  margin: 0 1px 5px;
+  color: white;
+}
+.learning-answerBtn-box {
+  margin: 10px 0px;
+  padding: 3px 5px;
+  width: 100%;
+}
+/* End Learning page styles */
+
+/* Utility Classes */
+.invisible {
+  background: white;
+  border: none;
+}
+.wrong-answer-hollow {
+  border: 1px solid red;
+  background: salmon;
+  color: red;
+}
+.wrong-answer-solid {
+  background-color: red;
+  color: white;
+}
+.correct-answer {
+  background-color: green;
+}
+.red-text {
+  color: red;
+}
+.green-text {
+  color: green;
+}
+/* End Utility Classes */
+
+/* Media Queries */
+@media (min-width: 876px) {
+  .answerBtn {
+    display: inline-block;
+    width: 24.5%;
+    height: 100%;
+    margin: 0 2px 5px;
+  }
+  .learning-answerBtn-box {
+    margin: 5px 0px;
+    height: 40vh;
+  }
+  .header {
+    height: 10vh;
+  }
+  #logo {
+    margin: 0 0 0 30px;
+  }
+}
+/* Media Queries */
