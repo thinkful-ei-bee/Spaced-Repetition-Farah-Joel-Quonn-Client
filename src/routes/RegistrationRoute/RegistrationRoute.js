@@ -20,9 +20,9 @@ class RegistrationRoute extends Component {
         <div className="registration-grid-item side-div"></div>
           <div className="registration-grid-item registration-content">
         <p>
-          Practice learning a language with the spaced reptition revision technique.
+          Practice learning a language with the spaced repetition revision technique.
         </p>
-        <h2>Sign up</h2>
+        <h1>Sign up</h1>
         <RegistrationForm
           onRegistrationSuccess={this.handleRegistrationSuccess}
         />
