@@ -7,37 +7,51 @@ import "../../components/App/App.css"
 class LearningRoute extends Component {
   state = {
     language: [],
-    words: []
+    words: [],
+    nextWord: []
   }
   
   getLanguage = () => {
     languageService.getLanguage()
-      .then(language => {
-        console.log(language)
+      .then(res => {
         this.setState({
-          language: language.language,
-          words: language.words
+          language: res.language,
+          words: res.words
         })
         console.log(this.state.words)
       })
   }
 
+  getLanguageHead = () => {
+    languageService.getLanguageHead()
+      .then(res => {
+        this.setState({
+          nextWord: [...this.state.nextWord, res]
+        })
+      })
+  }
+
   componentDidMount() {
     this.getLanguage();
+    this.getLanguageHead();
+  }
+
+  displayWord = () => {
+    const word = this.state.nextWord.map(word => 
+      <h2>How do you say "{word.nextWord}"</h2>
+      )
+    return word;
   }
 
   render() {    
-    const words = this.state.words;
-    const word = words.map(word => 
-      word.translation
-      )
+    
     return (
       <section className="quiz-wrapper">
         <div className="quiz-status-bar">
           Status bar
         </div>
         <article className="learning-quiz-question-box">
-          <h2> How do you say "{word[0]}"</h2>
+          {this.displayWord()}
         </article>
         <div className="answer-form">
           <form>
