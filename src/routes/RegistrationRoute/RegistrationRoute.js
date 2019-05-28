@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import RegistrationForm from '../../components/RegistrationForm/RegistrationForm'
+import "../../components/App/App.css"
 
 class RegistrationRoute extends Component {
   static defaultProps = {
@@ -15,14 +16,18 @@ class RegistrationRoute extends Component {
 
   render() {
     return (
-      <section>
-        <p>
-          Practice learning a language with the spaced reptition revision technique.
-        </p>
-        <h2>Sign up</h2>
+      <section className="registration-grid">
+        <div className="registration-grid-item side-div"></div>
+          <div className="registration-grid-item registration-content">
+          <p>
+            Practice learning a language with the spaced repetition revision technique.
+          </p>
+          <h1>Sign up</h1>
         <RegistrationForm
           onRegistrationSuccess={this.handleRegistrationSuccess}
         />
+        </div>
+        <div className="registration-grid-item side-div"></div>
       </section>
     );
   }
