@@ -9,7 +9,7 @@ class LearningRoute extends Component {
           Status bar
         </div>
         <article className="learning-quiz-question-box">
-          <h3> How do you say hello?</h3>
+          <h2> How do you say hello?</h2>
         </article>
         <div className="learning-answerBtn-box">
           <button className="answerBtn">
