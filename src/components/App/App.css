@@ -54,19 +54,9 @@ main {
   align-items: center;
   height: 40vh;
 }
-.answerBtn {
-  padding: 25px;
-  display: block;
-  background: black;
-  width: 99%;
-  border-radius: 7px;
-  margin: 0 1px 5px;
-  color: white;
-}
-.learning-answerBtn-box {
-  margin: 10px 0px;
-  padding: 3px 5px;
-  width: 100%;
+.answer-form{
+  margin: auto;
+  margin-top: 50px;
 }
 /* End Learning page styles */
 
@@ -131,9 +121,6 @@ main {
   color: white;
   border-radius: 5px;
 }
-/* .side-div {
-  display: none;
-} */
 /* End Utility Classes */
 
 /* Registration Styles */
