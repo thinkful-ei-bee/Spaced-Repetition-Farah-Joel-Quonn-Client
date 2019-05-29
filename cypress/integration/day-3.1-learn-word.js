@@ -69,6 +69,7 @@ describe(`User story: Presented with word`, function() {
 
     cy.fixture('language-head.json').then(languageHeadFixture => {
       cy.get('main').within($main => {
+        console.log($main)
         cy.root()
           .should(
             'contain',

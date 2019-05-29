@@ -13,15 +13,39 @@ class LearningRoute extends Component {
     languageService.getLanguageHead()
       .then(nextWord =>  nextWord.nextWord)
       .then(this.context.setNextWord)
+
+    languageService.getLanguageHead()
+      .then(totalScore =>  totalScore.totalScore)
+      .then(this.context.setTotalScore)
+    
+    languageService.getLanguageHead()
+      .then(wordCorrectCount =>  wordCorrectCount.wordCorrectCount)
+      .then(this.context.setWordCorrectCount)
+
+    languageService.getLanguageHead()
+      .then(wordIncorrectCount =>  wordIncorrectCount.wordIncorrectCount)
+      .then(this.context.setWordIncorrectCount)
   }
 
-  displayWord = () => {
+  displayWord() {
     const word = 
     <>
       <h2>Translate the word:</h2>
       <span>{this.context.nextWord}</span>
     </>
     return word;
+  }
+
+  displayTotalScore() {
+      return <p>Your total score is: {this.context.totalScore}</p>
+  }
+
+  displayCorrectCount() {
+    return <p>You have answered this word correctly {this.context.wordCorrectCount} times.</p>
+  }
+
+  displayIncorrectCount() {
+    return <p>You have answered this word incorrectly {this.context.wordIncorrectCount} times.</p>
   }
 
   handleSubmitAnswer = (e) => {
@@ -39,7 +63,7 @@ class LearningRoute extends Component {
           <article className="learning-quiz-question-box">
             {this.displayWord()}
           </article>
-          <p>Your total score is: 999</p>
+          {this.displayTotalScore()}
           <div className="answer-form">
             <form>
               <Label htmlFor='learn-guess-input' className="translation-label">
@@ -56,7 +80,8 @@ class LearningRoute extends Component {
                 Submit your answer
             </Button>
             </form>
-            <p>You've answered this word correctly 222 times.</p>
+            {this.displayCorrectCount()}
+            {this.displayIncorrectCount()}
           </div>
         </section>
       </main>
