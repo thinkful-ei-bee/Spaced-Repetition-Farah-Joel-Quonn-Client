@@ -19,7 +19,7 @@ class LearningRoute extends Component {
     const word = 
     <>
       <h2>Translate the word:</h2>
-      <span> "{this.context.nextWord}"</span>
+      <span>{this.context.nextWord}</span>
     </>
     return word;
   }
@@ -31,6 +31,7 @@ class LearningRoute extends Component {
 
   render() {
     return (
+      <main>
         <section className="quiz-wrapper">
           <div className="quiz-status-bar">
             Status bar
@@ -38,6 +39,7 @@ class LearningRoute extends Component {
           <article className="learning-quiz-question-box">
             {this.displayWord()}
           </article>
+          <p>Your total score is: 999</p>
           <div className="answer-form">
             <form>
               <Label htmlFor='learn-guess-input' className="translation-label">
@@ -54,8 +56,10 @@ class LearningRoute extends Component {
                 Submit your answer
             </Button>
             </form>
+            <p>You've answered this word correctly 222 times.</p>
           </div>
         </section>
+      </main>
     );
   }
 }
