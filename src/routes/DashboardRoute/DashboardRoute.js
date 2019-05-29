@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import languageService from '../../services/language-service'
 import LanguageContext from '../../contexts/LanguageContext'
+import "../../components/App/App.css"
 
 class DashboardRoute extends Component {
 
@@ -39,8 +40,10 @@ class DashboardRoute extends Component {
     return (
       <section>
         <h3>{subtitle}</h3>
+        <h1 className="dashboardScore">Score:{` `}</h1>
         <h4>Words to practice:</h4>
         {words}
+        <button className="btn">Start Learning</button>
       </section>
     );
   }

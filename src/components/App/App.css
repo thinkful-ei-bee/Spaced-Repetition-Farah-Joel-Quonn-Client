@@ -54,7 +54,7 @@ main {
   align-items: center;
   height: 40vh;
 }
-.answer-form{
+.answer-form {
   margin: auto;
   margin-top: 50px;
 }
@@ -162,6 +162,19 @@ main {
 }
 /* End Registration styles */
 
+/* Dashboard Styles */
+
+/* End of Dashboard Styles */
+
+.dashboardScore {
+  position: absolute;
+  top: 120px;
+  right: 90px;
+  background:black;
+  color: white;
+  padding:15px;
+}
+
 /* Media Queries */
 @media (min-width: 687px) {
   .LoginForm {
@@ -169,6 +182,10 @@ main {
     border: 1px solid black;
     width: 65%;
     padding: 15px;
+  }
+  .dashboardScore {
+    top: 90px;
+    right: 180px;
   }
 }
 
