@@ -17,7 +17,10 @@ class LearningRoute extends Component {
 
   displayWord = () => {
     const word = 
-      <h2>Translate the word: "{this.context.nextWord}"</h2>
+    <>
+      <h2>Translate the word:</h2> 
+      <p>"{this.context.nextWord}"</p>
+    </>
     return word;
   }
 
