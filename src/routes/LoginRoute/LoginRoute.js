@@ -12,7 +12,7 @@ class LoginRoute extends Component {
 
   handleLoginSuccess = () => {
     const { location, history } = this.props
-    const destination = (location.state || {}).from || '/learn'
+    const destination = (location.state || {}).from || '/'
     history.push(destination)
   }
 
