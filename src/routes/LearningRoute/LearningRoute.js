@@ -17,7 +17,7 @@ class LearningRoute extends Component {
 
   displayWord = () => {
     const word = 
-      <h2>Translation the word: "{this.context.nextWord}"</h2>
+      <h2>Translate the word: "{this.context.nextWord}"</h2>
     return word;
   }
 
@@ -37,8 +37,8 @@ class LearningRoute extends Component {
           </article>
           <div className="answer-form">
             <form>
-              <Label htmlFor='translation-input' className="translation-label">
-                Enter translation<Required />
+              <Label htmlFor='learn-guess-input' className="translation-label">
+                What's the translation for this word?<Required />
               </Label>
               <Input
                 className="translation-input"
