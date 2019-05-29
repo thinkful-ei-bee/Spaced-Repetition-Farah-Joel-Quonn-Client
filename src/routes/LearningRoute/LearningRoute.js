@@ -38,17 +38,17 @@ class LearningRoute extends Component {
           <div className="answer-form">
             <form>
               <Label htmlFor='learn-guess-input' className="translation-label">
-                What's the translation for this word?<Required />
+                What's the translation for this word?
               </Label>
               <Input
                 className="translation-input"
                 ref={this.firstInput}
-                id='translation-input'
+                id='learn-guess-input'
                 name='answer'
                 required
                 />
               <Button type='submit' className="btn">
-                Submit answer
+                Submit your answer
             </Button>
             </form>
           </div>
