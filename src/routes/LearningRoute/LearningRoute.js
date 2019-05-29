@@ -6,6 +6,9 @@ import Button from '../../components/Button/Button'
 import "../../components/App/App.css"
 
 class LearningRoute extends Component {
+  state = {
+    userGuess: "",
+  }
 
   static contextType = LanguageHeadContext;
  
@@ -27,6 +30,7 @@ class LearningRoute extends Component {
       .then(this.context.setWordIncorrectCount)
   }
 
+  /* DISPLAY WORD AND SCORE COUNT FUNCTIONS */
   displayWord() {
     const word = 
     <>
@@ -47,11 +51,34 @@ class LearningRoute extends Component {
   displayIncorrectCount() {
     return <p>You have answered this word incorrectly {this.context.wordIncorrectCount} times.</p>
   }
+  /* END DISPLAY WORD AND SCORE COUNT FUNCTIONS */
+
+
+  /* HANDLE USER INPUT AND POST FUNCTIONS */
+  updateUserGuess = (userGuess) => {
+    this.setState({ userGuess })
+  }
 
   handleSubmitAnswer = (e) => {
-    e.preventDefault();
-    const { answer } = e.target
+      e.preventDefault();
+      let body = { userGuess: e.currentTarget.answer.value}
+      this.postUserGuess(body);
+    }
+
+  postUserGuess( apiBody ) {
+    languageService.postGuess( apiBody )
+      .then(response => {
+        console.log(response)
+        let userInput = { userGuess: apiBody.userGuess }
+        console.log(userInput.userGuess)
+      })
+    
+    // if (userInput.userGuess === response.answer) {
+    //   console.log('Congrats!')
+    // }
+    
   }
+  /* END HANDLE USER INPUT AND POST FUNCTIONS */
 
   render() {
     return (
@@ -65,15 +92,17 @@ class LearningRoute extends Component {
           </article>
           {this.displayTotalScore()}
           <div className="answer-form">
-            <form>
+            <form onSubmit={this.handleSubmitAnswer}>
               <Label htmlFor='learn-guess-input' className="translation-label">
                 What's the translation for this word?
               </Label>
               <Input
                 className="translation-input"
                 ref={this.firstInput}
-                id='learn-guess-input'
-                name='answer'
+                id='answer'
+                name='learn-guess-input'
+                value={this.state.userGuess}
+                onChange={e => this.updateUserGuess(e.target.value)}
                 required
                 />
               <Button type='submit' className="btn">
