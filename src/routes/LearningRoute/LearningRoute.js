@@ -11,6 +11,7 @@ class LearningRoute extends Component {
     nextWord: '',
     correctAnswer: '',
     isCorrect: null,
+    hasSubmittedAnswer: false,
   }
 
   static contextType = LanguageHeadContext;
@@ -33,46 +34,28 @@ class LearningRoute extends Component {
       .then(this.context.setWordIncorrectCount)
   }
 
-  /* DISPLAY WORD AND SCORE COUNT FUNCTIONS */
-  displayWord() {
-    const word = 
-    <>
-      <h2>Translate the word:</h2>
-      <span>{this.context.nextWord}</span>
-    </>
-    return word;
-  }
-
-  displayTotalScore() {
-      return <p>Your total score is: {this.context.totalScore}</p>
-  }
-
-  displayCorrectCount() {
-    return <p>You have answered this word correctly {this.context.wordCorrectCount} times.</p>
-  }
-
-  displayIncorrectCount() {
-    return <p>You have answered this word incorrectly {this.context.wordIncorrectCount} times.</p>
-  }
-  /* END DISPLAY WORD AND SCORE COUNT FUNCTIONS */
-
-
   /* HANDLE USER INPUT AND POST FUNCTIONS */
   updateUserGuess = (userGuess) => {
     this.setState({ userGuess })
   }
 
   handleSubmitAnswer = (e) => {
-      e.preventDefault();
-      let body = { userGuess: e.currentTarget.answer.value}
-      this.postUserGuess(body);
-    }
+    e.preventDefault();
+    let body = { userGuess: e.currentTarget.answer.value}
+    this.postUserGuess(body);
+    this.setState({ hasSubmittedAnswer: true })
+  }
+
+  handleNextWordButton = (e) => {
+    e.preventDefault();
+    this.setState({ nextWord: this.state.nextWord })
+    this.context.nextWord = this.state.nextWord;
+  }
   
-  postUserGuess( apiBody ) {
+  postUserGuess() {
     languageService.postGuess( this.state.userGuess )
       .then(response => {
         if (response.isCorrect) {
-          console.log(response)
           this.setState({ 
             nextWord: response.nextWord,
             correctAnswer: response.answer,
@@ -81,9 +64,8 @@ class LearningRoute extends Component {
           this.context.wordCorrectCount = response.wordCorrectCount;
           this.context.wordIncorrectCount = response.wordIncorrectCount;
           this.context.totalScore = response.totalScore;
-
-          console.log('correct!')
           return;
+
         } else {
           this.setState({
             nextWord: response.nextWord,
@@ -97,16 +79,27 @@ class LearningRoute extends Component {
           return;
         }
       })
-    
   }
   /* END HANDLE USER INPUT AND POST FUNCTIONS */
 
+  /* DISPLAY WORD AND SCORE COUNT FUNCTIONS */
+  displayWord() {
+    const word = 
+    <>
+      <h2>Translate the word:</h2>
+      <span>{this.context.nextWord}</span>
+    </>
+    return word;
+  }
+  /* END DISPLAY WORD AND SCORE COUNT FUNCTIONS */
+
   render() {
-    console.log(this.state.isCorrect)
     let feedbackMessage = '';
     if (this.state.isCorrect === true) { feedbackMessage = "Congrats!"}
     if (this.state.isCorrect === false) { feedbackMessage = "Incorrect! "}
     if (this.state.isCorrect === null) { feedbackMessage = ''}
+
+   const nextButton =  (!this.state.hasSubmittedAnswer) ? '' : <button type="button" className="btn" onClick={this.handleNextWordButton} >Next word</button>
 
     return (
       <main>
@@ -117,7 +110,7 @@ class LearningRoute extends Component {
           <article className="learning-quiz-question-box">
             {this.displayWord()}
           </article>
-          {this.displayTotalScore()}
+          <p>Your total score is: {this.context.totalScore}</p>
 
           <div className="feedback-message">
             {feedbackMessage}
@@ -141,8 +134,11 @@ class LearningRoute extends Component {
                 Submit your answer
             </Button>
             </form>
-            {this.displayCorrectCount()}
-            {this.displayIncorrectCount()}
+            <p>You have answered this word correctly {this.context.wordCorrectCount} times.</p>
+            <p>You have answered this word incorrectly {this.context.wordIncorrectCount} times.</p>
+            {nextButton}
+            
+            
           </div>
         </section>
       </main>
