@@ -70,6 +70,12 @@ class LearningRoute extends Component {
     this.postUserGuess(body);
   }
 
+  handleNextWordButton = (e) => {
+    e.preventDefault();
+    this.setState({ nextWord: this.state.nextWord })
+    this.context.nextWord = this.state.nextWord;
+  }
+
   postUserGuess(apiBody) {
     languageService.postGuess(this.state.userGuess)
       .then(response => {
@@ -133,7 +139,7 @@ class LearningRoute extends Component {
             <p>You have answered this word correctly {this.context.wordCorrectCount} times.</p>
             <p>You have answered this word incorrectly {this.context.wordIncorrectCount} times.</p>
             {nextButton}
-            
+       
             
           </div>
         </section>
