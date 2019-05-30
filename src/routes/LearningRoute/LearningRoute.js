@@ -14,37 +14,38 @@ class LearningRoute extends Component {
   }
 
   static contextType = LanguageHeadContext;
- 
+
   componentWillMount() {
+    console.log(this.context.nextWord)
     languageService.getLanguageHead()
-      .then(nextWord =>  nextWord.nextWord)
+      .then(nextWord => nextWord.nextWord)
       .then(this.context.setNextWord)
 
     languageService.getLanguageHead()
-      .then(totalScore =>  totalScore.totalScore)
+      .then(totalScore => totalScore.totalScore)
       .then(this.context.setTotalScore)
-    
+
     languageService.getLanguageHead()
-      .then(wordCorrectCount =>  wordCorrectCount.wordCorrectCount)
+      .then(wordCorrectCount => wordCorrectCount.wordCorrectCount)
       .then(this.context.setWordCorrectCount)
 
     languageService.getLanguageHead()
-      .then(wordIncorrectCount =>  wordIncorrectCount.wordIncorrectCount)
+      .then(wordIncorrectCount => wordIncorrectCount.wordIncorrectCount)
       .then(this.context.setWordIncorrectCount)
   }
 
   /* DISPLAY WORD AND SCORE COUNT FUNCTIONS */
   displayWord() {
-    const word = 
-    <>
-      <h2>Translate the word:</h2>
-      <span>{this.context.nextWord}</span>
-    </>
+    const word =
+      <>
+        <h2>Translate the word:</h2>
+        <span>{this.context.nextWord}</span>
+      </>
     return word;
   }
 
   displayTotalScore() {
-      return <p>Your total score is: {this.context.totalScore}</p>
+    return <p>Your total score is: {this.context.totalScore}</p>
   }
 
   displayCorrectCount() {
@@ -63,36 +64,31 @@ class LearningRoute extends Component {
   }
 
   handleSubmitAnswer = (e) => {
-      e.preventDefault();
-      let body = { userGuess: e.currentTarget.answer.value}
-      this.postUserGuess(body);
-    }
+    e.preventDefault();
+    let body = { userGuess: e.currentTarget.answer.value }
+    this.postUserGuess(body);
+  }
 
-  postUserGuess( apiBody ) {
-    languageService.postGuess( this.state.userGuess )
+  postUserGuess(apiBody) {
+    languageService.postGuess(this.state.userGuess)
       .then(response => {
+        this.context.setWordCorrectCount(response.wordCorrectCount)
+        this.context.setWordIncorrectCount(response.wordIncorrectCount)
+        this.context.setTotalScore(response.totalScore)
         if (response.isCorrect) {
-          console.log(response)
-          this.setState({ 
+          this.setState({
             nextWord: response.nextWord,
             correctAnswer: response.answer
           })
-          this.context.wordCorrectCount = response.wordCorrectCount;
-          this.context.wordIncorrectCount = response.wordIncorrectCount;
-          this.context.totalScore = response.totalScore;
-        }     
-      })
-    
-    // if (userInput.userGuess === response.answer) {
-    //   console.log('Congrats!')
-    // }
-    
+        }
+      }
+
+      )
   }
   /* END HANDLE USER INPUT AND POST FUNCTIONS */
 
   render() {
     console.log(this.state.userGuess)
-    console.log()
     return (
       <main>
         <section className="quiz-wrapper">
@@ -116,7 +112,7 @@ class LearningRoute extends Component {
                 value={this.state.userGuess}
                 onChange={e => this.updateUserGuess(e.target.value)}
                 required
-                />
+              />
               <Button type='submit' className="btn">
                 Submit your answer
             </Button>
