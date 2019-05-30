@@ -12,12 +12,12 @@ class LearningRoute extends Component {
     correctAnswer: '',
     isCorrect: null,
     hasSubmittedAnswer: false,
+    translatedWord: true,
   }
 
   static contextType = LanguageHeadContext;
 
   componentWillMount() {
-    console.log(this.context.nextWord)
     languageService.getLanguageHead()
       .then(nextWord => nextWord.nextWord)
       .then(this.context.setNextWord)
@@ -35,28 +35,36 @@ class LearningRoute extends Component {
       .then(this.context.setWordIncorrectCount)
   }
 
-  /* DISPLAY WORD AND SCORE COUNT FUNCTIONS */
+  /* DISPLAY WORD AND FEEDBACK MESSAGE FUNCTIONS */
   displayWord() {
-    const word =
+    if (this.state.translatedWord) {
+      const word =
       <>
-        <h2>Translate the word:</h2>
+        <h2 className="translateWord">Translate the word:</h2>
         <span>{this.context.nextWord}</span>
       </>
-    return word;
+      return word;
+    }
   }
 
-  displayTotalScore() {
-    return <p>Your total score is: {this.context.totalScore}</p>
+  displayFeedbackMessage() {
+    if (!this.state.translatedWord) {
+      if (this.state.isCorrect === true) { return <h2>You were correct! :D</h2>}
+      if (this.state.isCorrect === false) { return <h2>Good try, but not quite right :(</h2> }
+      if (this.state.isCorrect === null) { return ''}
+    }
   }
 
-  displayCorrectCount() {
-    return <p>You have answered this word correctly {this.context.wordCorrectCount} times.</p>
+  displayHeaderMessage() {
+    let headerMessage = (this.state.translatedWord) ?
+      this.displayWord() : 
+      <div className="DisplayFeedback">
+        {this.displayFeedbackMessage()}
+        <p>The correct translation for {this.context.nextWord} was {this.state.correctAnswer} and you chose {this.state.guess}!</p>
+      </div>
+    return headerMessage;
   }
-
-  displayIncorrectCount() {
-    return <p>You have answered this word incorrectly {this.context.wordIncorrectCount} times.</p>
-  }
-  /* END DISPLAY WORD AND SCORE COUNT FUNCTIONS */
+  /* END ISPLAY WORD AND FEEDBACK MESSAGE FUNCTIONS */
 
 
   /* HANDLE USER INPUT AND POST FUNCTIONS */
@@ -87,73 +95,82 @@ class LearningRoute extends Component {
             nextWord: response.nextWord,
             correctAnswer: response.answer,
             isCorrect: true,
-            hasSubmittedAnswer: true
+            hasSubmittedAnswer: true,
+            translatedWord: false
           })
         } else {
           this.setState({ 
             nextWord: response.nextWord,
             correctAnswer: response.answer,
             isCorrect: false,
-            hasSubmittedAnswer: true
+            hasSubmittedAnswer: true,
+            translatedWord: false
           })
         }
       }
-
-      )
+    )
   }
   /* END HANDLE USER INPUT AND POST FUNCTIONS */
 
-  render() {
-    let feedbackMessage = '';
-    if (this.state.isCorrect === true) { feedbackMessage = "Congrats!"}
-    if (this.state.isCorrect === false) { feedbackMessage = "Incorrect! "}
-    if (this.state.isCorrect === null) { feedbackMessage = ''}
-
-   const nextButton =  (!this.state.hasSubmittedAnswer) ? '' : <button type="button" className="btn" onClick={this.handleNextWordButton} >Next word</button>
+  displayForm() {
     return (
-      <main>
-        <section className="quiz-wrapper">
-          <div className="quiz-status-bar">
-            Status bar
-          </div>
-          <article className="learning-quiz-question-box">
-            {this.displayWord()}
-          </article>
-          <p className="DisplayScore">Your total score is: {this.context.totalScore}</p>
+    <form onSubmit={this.handleSubmitAnswer}>
+      <Label htmlFor='learn-guess-input' className="translation-label">
+        What's the translation for this word?
+      </Label>
+      <Input
+        className="translation-input"
+        ref={this.firstInput}
+        id='learn-guess-input'
+        name='learn-guess-input'
+        value={this.state.guess}
+        onChange={e => this.updateUserGuess(e.target.value)}
+        required
+      />
+    <Button type='submit' className="btn">
+        Submit your answer
+    </Button>
+    </form> )
+  }
 
-          <div className="feedback-message">
-            {feedbackMessage}
-          </div>
+  displayButtons(){
+    let displayForm = 
+    (this.state.hasSubmittedAnswer === false) ? 
+      this.displayForm()
+    : <button type="button" className="btn" onClick={this.handleNextWordButton}>
+               Try another word!
+    </button>;
 
-          <div className="answer-form">
-            <form onSubmit={this.handleSubmitAnswer}>
-              <Label htmlFor='learn-guess-input' className="translation-label">
-                What's the translation for this word?
-              </Label>
-              <Input
-                className="translation-input"
-                ref={this.firstInput}
-                id='learn-guess-input'
-                name='learn-guess-input'
-                value={this.state.guess}
-                onChange={e => this.updateUserGuess(e.target.value)}
-                required
-              />
-              <Button type='submit' className="btn">
-                Submit your answer
-            </Button>
-            </form>
+    return displayForm;
+  }
 
-            <div >
-              <p >You have answered this word correctly {this.context.wordCorrectCount} times.</p>
-              <p >You have answered this word incorrectly {this.context.wordIncorrectCount} times.</p>
-            </div>
-            {nextButton}
-       
-            
+  render() {
+   return (
+    <main>
+      <section className="quiz-wrapper">
+        <div className="quiz-status-bar">
+          Status bar
+        </div>
+        <article className="learning-quiz-question-box">
+          {this.displayHeaderMessage()}
+        </article>
+        
+        <div className='DisplayScore'>
+          <p>
+            {`Your total score is: ${this.context.totalScore}`}
+          </p>
+        </div>
+
+        <div className="answer-form">
+          {this.displayButtons()}
+          <div >
+            <p >You have answered this word correctly {this.context.wordCorrectCount} times.</p>
+            <p >You have answered this word incorrectly {this.context.wordIncorrectCount} times.</p>
           </div>
-        </section>
-      </main>
+        </div>
+        
+      </section>
+    </main>
     );
   }
 }
