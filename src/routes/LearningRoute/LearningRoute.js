@@ -11,6 +11,7 @@ class LearningRoute extends Component {
     nextWord: '',
     correctAnswer: '',
     isCorrect: null,
+    hasSubmittedAnswer: false,
   }
 
   static contextType = LanguageHeadContext;
@@ -78,7 +79,8 @@ class LearningRoute extends Component {
         if (response.isCorrect) {
           this.setState({
             nextWord: response.nextWord,
-            correctAnswer: response.answer
+            correctAnswer: response.answer,
+            isCorrect: true
           })
         }
       }
@@ -86,6 +88,17 @@ class LearningRoute extends Component {
       )
   }
   /* END HANDLE USER INPUT AND POST FUNCTIONS */
+
+  /* DISPLAY WORD AND SCORE COUNT FUNCTIONS */
+  displayWord() {
+    const word = 
+    <>
+      <h2>Translate the word:</h2>
+      <span>{this.context.nextWord}</span>
+    </>
+    return word;
+  }
+  /* END DISPLAY WORD AND SCORE COUNT FUNCTIONS */
 
   render() {
     console.log(this.state.userGuess)
@@ -98,7 +111,12 @@ class LearningRoute extends Component {
           <article className="learning-quiz-question-box">
             {this.displayWord()}
           </article>
-          {this.displayTotalScore()}
+          <p>Your total score is: {this.context.totalScore}</p>
+
+          <div className="feedback-message">
+            {feedbackMessage}
+          </div>
+
           <div className="answer-form">
             <form onSubmit={this.handleSubmitAnswer}>
               <Label htmlFor='learn-guess-input' className="translation-label">
@@ -117,8 +135,11 @@ class LearningRoute extends Component {
                 Submit your answer
             </Button>
             </form>
-            {this.displayCorrectCount()}
-            {this.displayIncorrectCount()}
+            <p>You have answered this word correctly {this.context.wordCorrectCount} times.</p>
+            <p>You have answered this word incorrectly {this.context.wordIncorrectCount} times.</p>
+            {nextButton}
+            
+            
           </div>
         </section>
       </main>
