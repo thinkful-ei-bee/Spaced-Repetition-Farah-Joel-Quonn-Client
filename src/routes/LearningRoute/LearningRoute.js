@@ -80,7 +80,8 @@ class LearningRoute extends Component {
           this.setState({
             nextWord: response.nextWord,
             correctAnswer: response.answer,
-            isCorrect: true
+            isCorrect: true,
+            hasSubmittedAnswer: true
           })
         }
       }
@@ -89,19 +90,13 @@ class LearningRoute extends Component {
   }
   /* END HANDLE USER INPUT AND POST FUNCTIONS */
 
-  /* DISPLAY WORD AND SCORE COUNT FUNCTIONS */
-  displayWord() {
-    const word = 
-    <>
-      <h2>Translate the word:</h2>
-      <span>{this.context.nextWord}</span>
-    </>
-    return word;
-  }
-  /* END DISPLAY WORD AND SCORE COUNT FUNCTIONS */
-
   render() {
-    console.log(this.state.userGuess)
+    let feedbackMessage = '';
+    if (this.state.isCorrect === true) { feedbackMessage = "Congrats!"}
+    if (this.state.isCorrect === false) { feedbackMessage = "Incorrect! "}
+    if (this.state.isCorrect === null) { feedbackMessage = ''}
+
+   const nextButton =  (!this.state.hasSubmittedAnswer) ? '' : <button type="button" className="btn" onClick={this.handleNextWordButton} >Next word</button>
     return (
       <main>
         <section className="quiz-wrapper">
@@ -146,5 +141,4 @@ class LearningRoute extends Component {
     );
   }
 }
-
 export default LearningRoute
