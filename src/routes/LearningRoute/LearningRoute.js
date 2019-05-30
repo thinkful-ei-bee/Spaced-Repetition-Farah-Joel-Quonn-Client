@@ -67,7 +67,7 @@ class LearningRoute extends Component {
       let body = { userGuess: e.currentTarget.answer.value}
       this.postUserGuess(body);
     }
-
+  
   postUserGuess( apiBody ) {
     languageService.postGuess( this.state.userGuess )
       .then(response => {
@@ -75,24 +75,39 @@ class LearningRoute extends Component {
           console.log(response)
           this.setState({ 
             nextWord: response.nextWord,
-            correctAnswer: response.answer
+            correctAnswer: response.answer,
+            isCorrect: true
           })
           this.context.wordCorrectCount = response.wordCorrectCount;
           this.context.wordIncorrectCount = response.wordIncorrectCount;
           this.context.totalScore = response.totalScore;
-        }     
+
+          console.log('correct!')
+          return;
+        } else {
+          this.setState({
+            nextWord: response.nextWord,
+            correctAnswer: response.answer,
+            isCorrect: false
+          }) 
+          this.context.wordCorrectCount = response.wordCorrectCount;
+          this.context.wordIncorrectCount = response.wordIncorrectCount;
+          this.context.totalScore = response.totalScore;
+
+          return;
+        }
       })
-    
-    // if (userInput.userGuess === response.answer) {
-    //   console.log('Congrats!')
-    // }
     
   }
   /* END HANDLE USER INPUT AND POST FUNCTIONS */
 
   render() {
-    console.log(this.state.userGuess)
-    console.log()
+    console.log(this.state.isCorrect)
+    let feedbackMessage = '';
+    if (this.state.isCorrect === true) { feedbackMessage = "Congrats!"}
+    if (this.state.isCorrect === false) { feedbackMessage = "Incorrect! "}
+    if (this.state.isCorrect === null) { feedbackMessage = ''}
+
     return (
       <main>
         <section className="quiz-wrapper">
@@ -103,6 +118,11 @@ class LearningRoute extends Component {
             {this.displayWord()}
           </article>
           {this.displayTotalScore()}
+
+          <div className="feedback-message">
+            {feedbackMessage}
+          </div>
+
           <div className="answer-form">
             <form onSubmit={this.handleSubmitAnswer}>
               <Label htmlFor='learn-guess-input' className="translation-label">
