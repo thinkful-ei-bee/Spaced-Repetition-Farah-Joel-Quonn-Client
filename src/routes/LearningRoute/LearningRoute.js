@@ -80,7 +80,12 @@ class LearningRoute extends Component {
 
   handleNextWordButton = (e) => {
     e.preventDefault();
-    this.setState({ nextWord: this.state.nextWord })
+    this.setState({ 
+      nextWord: this.state.nextWord,
+      hasSubmittedAnswer: false,
+      translatedWord: true,
+      guess: ''
+    })
     this.context.nextWord = this.state.nextWord;
   }
 
@@ -168,7 +173,7 @@ class LearningRoute extends Component {
             <p >You have answered this word incorrectly {this.context.wordIncorrectCount} times.</p>
           </div>
         </div>
-        
+
       </section>
     </main>
     );
