@@ -41,8 +41,6 @@ const languageService = {
         'authorization': `Bearer ${TokenService.getAuthToken()}`,
       },
       body: JSON.stringify( {userGuess} ),
-      
-      
     })
       .then(res => 
         (!res.ok)

@@ -7,7 +7,7 @@ import "../../components/App/App.css"
 
 class LearningRoute extends Component {
   state = {
-    userGuess: '',
+    guess: '',
     nextWord: '',
     correctAnswer: '',
     isCorrect: null,
@@ -60,13 +60,13 @@ class LearningRoute extends Component {
 
 
   /* HANDLE USER INPUT AND POST FUNCTIONS */
-  updateUserGuess = (userGuess) => {
-    this.setState({ userGuess })
+  updateUserGuess = (guess) => {
+    this.setState({ guess })
   }
 
   handleSubmitAnswer = (e) => {
     e.preventDefault();
-    let body = { userGuess: e.currentTarget.answer.value }
+    let body = { guess: e.currentTarget.id.value }
     this.postUserGuess(body);
   }
 
@@ -76,8 +76,8 @@ class LearningRoute extends Component {
     this.context.nextWord = this.state.nextWord;
   }
 
-  postUserGuess(apiBody) {
-    languageService.postGuess(this.state.userGuess)
+  postUserGuess() {
+    languageService.postGuess(this.state.guess)
       .then(response => {
         this.context.setWordCorrectCount(response.wordCorrectCount)
         this.context.setWordIncorrectCount(response.wordIncorrectCount)
@@ -87,6 +87,13 @@ class LearningRoute extends Component {
             nextWord: response.nextWord,
             correctAnswer: response.answer,
             isCorrect: true,
+            hasSubmittedAnswer: true
+          })
+        } else {
+          this.setState({ 
+            nextWord: response.nextWord,
+            correctAnswer: response.answer,
+            isCorrect: false,
             hasSubmittedAnswer: true
           })
         }
@@ -112,7 +119,7 @@ class LearningRoute extends Component {
           <article className="learning-quiz-question-box">
             {this.displayWord()}
           </article>
-          <p>Your total score is: {this.context.totalScore}</p>
+          <p className="DisplayScore">Your total score is: {this.context.totalScore}</p>
 
           <div className="feedback-message">
             {feedbackMessage}
@@ -126,9 +133,9 @@ class LearningRoute extends Component {
               <Input
                 className="translation-input"
                 ref={this.firstInput}
-                id='answer'
+                id='learn-guess-input'
                 name='learn-guess-input'
-                value={this.state.userGuess}
+                value={this.state.guess}
                 onChange={e => this.updateUserGuess(e.target.value)}
                 required
               />
@@ -136,8 +143,11 @@ class LearningRoute extends Component {
                 Submit your answer
             </Button>
             </form>
-            <p>You have answered this word correctly {this.context.wordCorrectCount} times.</p>
-            <p>You have answered this word incorrectly {this.context.wordIncorrectCount} times.</p>
+
+            <div >
+              <p >You have answered this word correctly {this.context.wordCorrectCount} times.</p>
+              <p >You have answered this word incorrectly {this.context.wordIncorrectCount} times.</p>
+            </div>
             {nextButton}
        
             

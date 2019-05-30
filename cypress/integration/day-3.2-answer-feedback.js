@@ -39,7 +39,7 @@ describe(`User story: Answer feedback`, function() {
     it(`submits my answer typed in the form`, () => {
       const guess = 'my-test-guess'
 
-      cy.login().visit(`/learn`)
+      cy.login().visit(`/learn`)  
       cy.wait('@languageHeadRequest')
 
       cy.get('main form').within($form => {
