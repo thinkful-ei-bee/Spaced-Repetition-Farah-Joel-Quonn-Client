@@ -7,7 +7,10 @@ import "../../components/App/App.css"
 
 class LearningRoute extends Component {
   state = {
-    userGuess: "",
+    userGuess: '',
+    nextWord: '',
+    correctAnswer: '',
+    isCorrect: null,
   }
 
   static contextType = LanguageHeadContext;
@@ -66,11 +69,18 @@ class LearningRoute extends Component {
     }
 
   postUserGuess( apiBody ) {
-    languageService.postGuess( apiBody )
+    languageService.postGuess( this.state.userGuess )
       .then(response => {
-        console.log(response)
-        let userInput = { userGuess: apiBody.userGuess }
-        console.log(userInput.userGuess)
+        if (response.isCorrect) {
+          console.log(response)
+          this.setState({ 
+            nextWord: response.nextWord,
+            correctAnswer: response.answer
+          })
+          this.context.wordCorrectCount = response.wordCorrectCount;
+          this.context.wordIncorrectCount = response.wordIncorrectCount;
+          this.context.totalScore = response.totalScore;
+        }     
       })
     
     // if (userInput.userGuess === response.answer) {
@@ -81,6 +91,8 @@ class LearningRoute extends Component {
   /* END HANDLE USER INPUT AND POST FUNCTIONS */
 
   render() {
+    console.log(this.state.userGuess)
+    console.log()
     return (
       <main>
         <section className="quiz-wrapper">
