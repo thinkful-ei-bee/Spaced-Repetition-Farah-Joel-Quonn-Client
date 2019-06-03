@@ -1,15 +1,22 @@
 import React, { Component } from 'react'
 import languageService from '../../services/language-service'
 import LanguageHeadContext from '../../contexts/LanguageHeadContext'
-import { Input, Required, Label } from '../../components/Form/Form'
+import { Input, Label } from '../../components/Form/Form'
 import Button from '../../components/Button/Button'
 import "../../components/App/App.css"
 
 class LearningRoute extends Component {
   state = {
     guess: '',
+    answer: null,
+    currentWord: '',
     nextWord: '',
     correctAnswer: '',
+    totalScore: 0,
+    wordCorrectCount: 0,
+    wordIncorrectCount: 0,
+    currentWordCorrectCount: null,
+    currentWordIncorrectCount: null,
     isCorrect: null,
     hasSubmittedAnswer: false,
     translatedWord: true,
@@ -19,20 +26,18 @@ class LearningRoute extends Component {
 
   componentWillMount() {
     languageService.getLanguageHead()
-      .then(nextWord => nextWord.nextWord)
-      .then(this.context.setNextWord)
-
-    languageService.getLanguageHead()
-      .then(totalScore => totalScore.totalScore)
-      .then(this.context.setTotalScore)
-
-    languageService.getLanguageHead()
-      .then(wordCorrectCount => wordCorrectCount.wordCorrectCount)
-      .then(this.context.setWordCorrectCount)
-
-    languageService.getLanguageHead()
-      .then(wordIncorrectCount => wordIncorrectCount.wordIncorrectCount)
-      .then(this.context.setWordIncorrectCount)
+      .then(response => {
+        console.log(response)
+        this.setState({
+          nextWord: response.nextWord,
+          totalScore: response.totalScore,
+          wordCorrectCount: response.wordCorrectCount,
+          wordIncorrectCount: response.wordIncorrectCount,
+          currentWord: response.nextWord,
+          isCorrect: null,
+          guess: '',
+        })
+      })
   }
 
   /* DISPLAY WORD AND FEEDBACK MESSAGE FUNCTIONS */
@@ -41,13 +46,13 @@ class LearningRoute extends Component {
       const word =
       <>
         <h2 className="translateWord">Translate the word:</h2>
-        <span>{this.context.nextWord}</span>
+        <span>{this.state.nextWord}</span>
       </>
       return word;
     }
   }
 
-  displayFeedbackMessage() {
+  displayFeedbackMessage() { 
     if (!this.state.translatedWord) {
       if (this.state.isCorrect === true) { return <h2>You were correct! :D</h2>}
       if (this.state.isCorrect === false) { return <h2>Good try, but not quite right :(</h2> }
@@ -55,15 +60,7 @@ class LearningRoute extends Component {
     }
   }
 
-  displayHeaderMessage() {
-    let headerMessage = (this.state.translatedWord) ?
-      this.displayWord() : 
-      <div className="DisplayFeedback">
-        {this.displayFeedbackMessage()}
-        <p>The correct translation for {this.context.nextWord} was {this.state.correctAnswer} and you chose {this.state.guess}!</p>
-      </div>
-    return headerMessage;
-  }
+
   /* END ISPLAY WORD AND FEEDBACK MESSAGE FUNCTIONS */
 
 
@@ -86,34 +83,56 @@ class LearningRoute extends Component {
       translatedWord: true,
       guess: ''
     })
-    this.context.nextWord = this.state.nextWord;
+    //this.context.nextWord = this.state.nextWord;
+    //this.context.setNextWord(this.state.nextWord);
   }
 
   postUserGuess() {
     languageService.postGuess(this.state.guess)
       .then(response => {
-        this.context.setWordCorrectCount(response.wordCorrectCount)
-        this.context.setWordIncorrectCount(response.wordIncorrectCount)
-        this.context.setTotalScore(response.totalScore)
+        let currentWord = this.state.nextWord
+        console.log(response)
+        
         if (response.isCorrect) {
           this.setState({
             nextWord: response.nextWord,
+            totalScore: response.totalScore,
+            wordCorrectCount: response.wordCorrectCount,
+            wordIncorrectCount: response.wordIncorrectCount,
             correctAnswer: response.answer,
             isCorrect: true,
             hasSubmittedAnswer: true,
-            translatedWord: false
+            translatedWord: false,
+            currentWord: currentWord,
           })
+         // this.context.setNextWord(response.nextWord);
         } else {
           this.setState({ 
             nextWord: response.nextWord,
+            totalScore: response.totalScore,
+            wordCorrectCount: response.wordCorrectCount,
+            wordIncorrectCount: response.wordIncorrectCount,
             correctAnswer: response.answer,
             isCorrect: false,
             hasSubmittedAnswer: true,
             translatedWord: false
           })
+        //  this.context.setNextWord(response.nextWord);
         }
       }
     )
+  }
+
+  displayHeaderMessage() {
+    let headerMessage = (this.state.translatedWord) ?
+      this.displayWord() :
+      <div className="DisplayFeedback">
+        {this.displayFeedbackMessage()}
+        <p>The correct translation for {this.state.nextWord} was {this.state.correctAnswer} and you chose {this.state.guess}!</p>
+      </div>
+      
+
+    return headerMessage;
   }
   /* END HANDLE USER INPUT AND POST FUNCTIONS */
 
@@ -162,15 +181,15 @@ class LearningRoute extends Component {
         
         <div className='DisplayScore'>
           <p>
-            {`Your total score is: ${this.context.totalScore}`}
+            {`Your total score is: ${this.state.totalScore}`}
           </p>
         </div>
 
         <div className="answer-form">
           {this.displayButtons()}
           <div >
-            <p >You have answered this word correctly {this.context.wordCorrectCount} times.</p>
-            <p >You have answered this word incorrectly {this.context.wordIncorrectCount} times.</p>
+            <p >You have answered this word correctly {this.state.wordCorrectCount} times.</p>
+            <p >You have answered this word incorrectly {this.state.wordIncorrectCount} times.</p>
           </div>
         </div>
 
