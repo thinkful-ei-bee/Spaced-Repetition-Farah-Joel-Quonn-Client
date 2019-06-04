@@ -9,11 +9,11 @@ class DashboardRoute extends Component {
   static contextType = LanguageContext;
 
   componentWillMount() {
-    languageService.getLanguage()
+    languageService.getLanguageWords()
       .then(language => language.language.name)
       .then(this.context.setLanguage)
 
-    languageService.getLanguage()
+    languageService.getLanguageWords()
       .then(language => (language.words))
       .then(this.context.setWords)
 
