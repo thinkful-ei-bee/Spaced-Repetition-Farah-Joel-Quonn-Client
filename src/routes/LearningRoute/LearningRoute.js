@@ -51,7 +51,7 @@ class LearningRoute extends Component {
           Status bar
         </div>
         <article className="learning-quiz-question-box">
-          {this.displayWord()}
+          <span lang="fr">{this.displayWord()}</span>
         </article>
         <div className="answer-form">
           <form>

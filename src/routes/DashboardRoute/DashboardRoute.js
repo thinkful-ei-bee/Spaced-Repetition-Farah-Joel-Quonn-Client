@@ -39,7 +39,7 @@ class DashboardRoute extends Component {
     return (
       <section>
         <h3>{subtitle}</h3>
-        <h4>Words to practice:</h4>
+        <h4 lang="fr">Words to practice:</h4>
         {words}
       </section>
     );
